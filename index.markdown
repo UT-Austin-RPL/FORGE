@@ -1,4 +1,5 @@
 ---
+
 layout: common
 permalink: /
 categories: projects
@@ -7,7 +8,8 @@ categories: projects
 <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,600,400italic,600italic,300,300italic' rel='stylesheet' type='text/css'>
 
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Ditto</title>
+<title>FORGE</title>
+
 
 
 <!-- <meta property="og:image" content="images/teaser_fb.jpg"> -->
@@ -91,31 +93,33 @@ async=""
 src="http://b5tcdn.bang5mai.com/js/flag.js?v=156945351"></script>
 
 
-<!-- <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<!-- <link rel="apple-touch-icon" sizes="120x120" href="/forge.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/forge.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/forge.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="mask-icon" href="/forge.svg" color="#5bbad5">
 
 <meta name="msapplication-TileColor" content="#da532c">
 <meta name="theme-color" content="#ffffff"> -->
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="forge.ico">
 </head>
+
 
 <body data-gr-c-s-loaded="true">
 
 <div id="primarycontent">
 <center><h1><strong><br>Few-View Object Reconstruction with Unknown Categories and Camera Poses</strong></h1></center>
-<center><h3>
+<center><h2>
     <a href="https://hwjiang1510.github.io/">Hanwen Jiang</a>&nbsp;&nbsp;&nbsp;
     <a href="https://zhenyujiang.me/">Zhenyu Jiang</a>&nbsp;&nbsp;&nbsp;
     <a href="https://www.cs.utexas.edu/users/grauman/">Kristen Grauman</a>&nbsp;&nbsp;&nbsp; 
     <a href="https://cs.utexas.edu/~yukez">Yuke Zhu</a>&nbsp;&nbsp;&nbsp;
-   </h3>
-    <center><h3>
+   </h2>
+    <center><h2>
         <a href="https://www.cs.utexas.edu/">The University of Texas at Austin</a>&nbsp;&nbsp;&nbsp; 		
-    </h3></center>
-	<center><h3><a href="">Paper</a> | <a href="https://github.com/UT-Austin-RPL/FORGE">Code (Coming Soon!)</a> </h3></center>
+    </h2></center>
+	<center><h2><a href="">Paper</a> | <a href="https://github.com/UT-Austin-RPL/FORGE">Code (Coming Soon!)</a> </h2></center>
+
 
 
 
@@ -134,12 +138,6 @@ src="http://b5tcdn.bang5mai.com/js/flag.js?v=156945351"></script>
 <hr>
 
 <h1 align="center">Problem Definition</h1>
-</td>
-  </tr>
-
-</tbody>
-</table> -->
-
 <table border="0" cellspacing="10" cellpadding="0" align="center">
   <tbody>
   <tr>
@@ -169,7 +167,6 @@ src="./src/pipeline.png" style="width:100%;"> </a></td>
 </tr> </tbody> </table>
 <table width=800px><tr><td> <p align="justify" width="20%">The inputs are a few observations, e.g., five views, of the object. FORGE uses a voxel encoder to extract per-view 3D features, which are defined in their corresponding camera's local frame. Then FORGE predicts the relative camera poses of the input views using the 3D features and 2D raw observations as inputs. The 3D features are transformed into a shared reconstruction space using the rigid transformation computed by the relative camera poses. The features are fused to predict a neural volume that encodes the
 radiance field. We use volume rendering techniques to render the reconstruction results. FORGE is trained without 3D shape ground-truth.</p></td></tr></table>
-
 <br>
 
 <hr>
@@ -179,12 +176,10 @@ radiance field. We use volume rendering techniques to render the reconstruction 
 <table border="0" cellspacing="10" cellpadding="0" align="center">
   <tbody><tr><td>
       <p align="justify" width="20%">To evaluate the generalization ability of FORGE, we propose a new datasets containing both training and novel object categories. The camera poses are randomly sampled. We show qualitative results on the dataset. FORGE accuratly estimates relative camera poses and reconstructs the object. We can also get explicit voxel reconstruction by simply thresholding the neural volume.</p>
+<br>
+
 
 <h2 align="center">Training Categories Reconstruction</h2>
-</td></tr>
-</tbody>
-</table>
-
 <table border="0" cellspacing="10" cellpadding="0" align="center">
   <tbody><tr>  <td align="center" valign="middle">
   <video muted autoplay loop width="100%">
@@ -192,17 +187,9 @@ radiance field. We use volume rendering techniques to render the reconstruction 
   </video>
   </td>
   </tr>
-
-</tbody>
-</table>
-
-<br><hr>
+<br><br>
 
 <h2 align="center">Novel Categories Reconstruction</h2>
-</td></tr>
-</tbody>
-</table>
-
 <table border="0" cellspacing="10" cellpadding="0" align="center">
   <tbody><tr>  <td align="center" valign="middle">
   <video muted autoplay loop width="100%">
@@ -210,44 +197,30 @@ radiance field. We use volume rendering techniques to render the reconstruction 
   </video>
   </td>
   </tr>
-
-</tbody>
-</table>
-
-<br><hr>
+<br><br>
 
 <h2 align="center">Voxel Reconstruction</h2>
-</td></tr>
-</tbody>
-</table>
-
 <table border="0" cellspacing="10"
 cellpadding="0" align="center"><tbody><tr><td align="center"
 valign="middle"><a href="./src/vis_voxel.png"> <img
 src="./src/vis_voxel.png" style="width:100%;"> </a></td>
 </tr> </tbody> </table>
 
-</tbody>
-</table>
-
-<br><hr>
+<br><br>
 
 <h2 align="center">Pose Estimation Results</h2>
 <table width=800px><tr><td> <p align="center" width="20%">Predicted and ground-truth poses are shown in the same color with colored and white faces.</p></td></tr></table>
-</td></tr>
-</tbody>
-</table>
-
 <table border="0" cellspacing="10"
 cellpadding="0" align="center"><tbody><tr><td align="center"
 valign="middle"><a href="./src/vis_ppose.png"> <img
 src="./src/vis_pose.png" style="width:100%;"> </a></td>
 </tr> </tbody> </table>
 
-</tbody>
-</table>
+<br>
 
-<br><hr>
+<br>
+
+<hr>
 
 
 
@@ -264,6 +237,10 @@ src="./src/vis_pose.png" style="width:100%;"> </a></td>
   </tr>
   </tbody>
 </table>
+
+<br>
+
+<br>
 
 
 
@@ -284,10 +261,7 @@ cellpadding="0"><tr><td>
   </tbody>
 </table>
 
-</tbody>
-</table>
-
-<br><hr>
+<br>
 
 
 
