@@ -175,8 +175,10 @@ radiance field. We use volume rendering techniques to render the reconstruction 
 <h1 align="center">Reconstruction Results</h1>
 <table border="0" cellspacing="10" cellpadding="0" align="center">
   <tbody><tr><td>
-      <p align="justify" width="20%">To evaluate the generalization ability of FORGE, we propose a new datasets containing both training and novel object categories. The camera poses are randomly sampled. We show qualitative results on the dataset. FORGE accuratly estimates relative camera poses and reconstructs the object. We can also get explicit voxel reconstruction by simply thresholding the neural volume.</p>
+      <p align="justify" width="20%">To evaluate the generalization ability of FORGE, we propose a new datasets containing both training and novel object categories. The camera poses are randomly sampled. We show qualitative results on the dataset. FORGE accuratly estimates relative camera poses and reconstructs the object. We can also get explicit voxel reconstruction by simply thresholding the neural volume.</p></td></tr></tbody></table>
+
 <br>
+
 
 
 <h2 align="center">Training Categories Reconstruction</h2>
@@ -185,9 +187,9 @@ radiance field. We use volume rendering techniques to render the reconstruction 
   <video muted autoplay loop width="100%">
       <source src="./video/train_category_trim.mp4"  type="video/mp4">
   </video>
-  </td>
-  </tr>
-<br><br>
+  </td></tr></tbody></table>
+
+<br>
 
 <h2 align="center">Novel Categories Reconstruction</h2>
 <table border="0" cellspacing="10" cellpadding="0" align="center">
@@ -196,8 +198,9 @@ radiance field. We use volume rendering techniques to render the reconstruction 
       <source src="./video/novel_category_trim.mp4"  type="video/mp4">
   </video>
   </td>
-  </tr>
-<br><br>
+      </tr></tbody></table>
+<br>
+
 
 <h2 align="center">Voxel Reconstruction</h2>
 <table border="0" cellspacing="10"
@@ -206,7 +209,7 @@ valign="middle"><a href="./src/vis_voxel.png"> <img
 src="./src/vis_voxel.png" style="width:100%;"> </a></td>
 </tr> </tbody> </table>
 
-<br><br>
+<br>
 
 <h2 align="center">Pose Estimation Results</h2>
 <table width=800px><tr><td> <p align="center" width="20%">Predicted and ground-truth poses are shown in the same color with colored and white faces.</p></td></tr></table>
@@ -215,8 +218,6 @@ cellpadding="0" align="center"><tbody><tr><td align="center"
 valign="middle"><a href="./src/vis_ppose.png"> <img
 src="./src/vis_pose.png" style="width:100%;"> </a></td>
 </tr> </tbody> </table>
-
-<br>
 
 <br>
 
