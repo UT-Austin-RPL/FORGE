@@ -252,18 +252,6 @@ src="./src/vis_pose.png" style="width:100%;"> </a></td>
       </tr></tbody></table>
 <p> We tested FORGE on real-world data captured by iPhone. We used three images as inputs of FORGE and compared it with COLMAP which uses dense inputs. FORGE reliably reconstructed the objects from novel categories even though the lighting condition, image capturing stratergy and camera intrinsics are different from training.</p></td></tr></table>
 
-<table border="0" cellspacing="10" cellpadding="0" align="center">
-  <tbody>
-  <tr>
-    <td align="center" valign="middle">
-      <video muted autoplay width="94%">
-        <source src="./video/real.mp4"  type="video/mp4">
-      </video>
-    </td>
-  </tr>
-  </tbody>
-</table>
-
 <br>
 
 
