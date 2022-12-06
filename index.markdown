@@ -123,14 +123,13 @@ src="http://b5tcdn.bang5mai.com/js/flag.js?v=156945351"></script>
 
 
 
-
 <p>
 <div width="500"><p>
   <table align=center width=800px>
                 <tr>
                     <td>
 <p align="justify" width="20%">
- While object reconstruction has made great strides in recent years, current methods typically require densely captured images and/or known camera poses, and generalize poorly to novel object categories. To step toward object reconstruction in the wild, this work explores reconstructing general real-world objects from a few images without known camera poses or object categories. The crux of our work is solving two fundamental 3D vision problems --- shape reconstruction and pose estimation --- in a unified approach. Our approach captures the synergies of these two problems: reliable camera pose estimation gives rise to accurate shape reconstruction, and the accurate reconstruction, in turn, induces robust correspondence between different views and facilitates pose estimation. Our method FORGE predicts 3D features from each view and leverages them in conjunction with the input images to establish cross-view correspondence for estimating relative camera poses. The 3D features are then transformed by the estimated poses into a shared space and are fused into a neural radiance field. The reconstruction results are rendered by volume rendering techniques, enabling us to train the model without 3D shape ground-truth. Our experiments show that FORGE reliably reconstructs objects from five views. Our pose estimation method outperforms existing ones by a large margin. The reconstruction results under predicted poses are comparable to the ones using ground-truth poses. The performance on novel testing categories matches the results on categories seen during training.
+ While object reconstruction has made great strides in recent years, current methods typically require densely captured images and/or known camera poses, and generalize poorly to novel object categories. To step toward object reconstruction in the wild, this work explores reconstructing general real-world objects from a few images without known camera poses or object categories. The crux of our work is solving two fundamental 3D vision problems — shape reconstruction and pose estimation — in a unified approach. Our approach captures the synergies of these two problems: reliable camera pose estimation gives rise to accurate shape reconstruction, and the accurate reconstruction, in turn, induces robust correspondence between different views and facilitates pose estimation. Our method FORGE predicts 3D features from each view and leverages them in conjunction with the input images to establish cross-view correspondence for estimating relative camera poses. The 3D features are then transformed by the estimated poses into a shared space and are fused into a neural radiance field. The reconstruction results are rendered by volume rendering techniques, enabling us to train the model without 3D shape ground-truth. Our experiments show that FORGE reliably reconstructs objects from five views. Our pose estimation method outperforms existing ones by a large margin. The reconstruction results under predicted poses are comparable to the ones using ground-truth poses. The performance on novel testing categories matches the results on categories seen during training.
 </p></td></tr></table>
 </p>
   </div>
@@ -176,7 +175,7 @@ radiance field. We use volume rendering techniques to render the reconstruction 
 <h1 align="center">Reconstruction Results</h1>
 <table border="0" cellspacing="10" cellpadding="0" align="center">
   <tbody><tr><td>
-      <p align="justify" width="20%">To evaluate the generalization ability of FORGE, we propose a new datasets containing both training and novel object categories. The camera poses are randomly sampled. When using ground-truth camera poses, FORGE outperforms previous SOTA PixelNeRF by 2 dB PSNR with 3000 times faster inference speed. We use 5 views as inputs and evaluate the performance on another 5 novel views.</p>
+      <p align="justify" width="20%">To evaluate the generalization ability of FORGE, we propose a new datasets containing both training and novel object categories. The camera poses are randomly sampled. When using ground-truth camera poses, FORGE outperforms previous SOTA PixelNeRF by 2 dB PSNR with 3000 times faster inference speed. We use 5 views as inputs and evaluate the performance on another 5 novel views, where we show 2 of them.</p>
    <a href="./src/gt_compare.png"> <img
 src="./src/gt_compare.png" style="width:100%;"> </a>
       </td></tr></tbody></table>
