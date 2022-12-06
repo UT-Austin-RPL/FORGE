@@ -108,7 +108,7 @@ src="http://b5tcdn.bang5mai.com/js/flag.js?v=156945351"></script>
 <body data-gr-c-s-loaded="true">
 
 <div id="primarycontent">
-<center><h1><strong><br>Few-View Object Reconstruction with Unknown Categories and Camera Poses</strong></h1></center>
+<center><h1><strong><br>Few-View Object Reconstruction <br /> with Unknown Categories and Camera Poses</strong></h1></center>
 <center><h2>
     <a href="https://hwjiang1510.github.io/">Hanwen Jiang</a>&nbsp;&nbsp;&nbsp;
     <a href="https://zhenyujiang.me/">Zhenyu Jiang</a>&nbsp;&nbsp;&nbsp;
@@ -119,6 +119,7 @@ src="http://b5tcdn.bang5mai.com/js/flag.js?v=156945351"></script>
         <a href="https://www.cs.utexas.edu/">The University of Texas at Austin</a>&nbsp;&nbsp;&nbsp; 		
     </h2></center>
 	<center><h2><a href="">Paper</a> | <a href="https://github.com/UT-Austin-RPL/FORGE">Code (Coming Soon!)</a> </h2></center>
+
 
 
 
@@ -175,15 +176,19 @@ radiance field. We use volume rendering techniques to render the reconstruction 
 <h1 align="center">Reconstruction Results</h1>
 <table border="0" cellspacing="10" cellpadding="0" align="center">
   <tbody><tr><td>
-      <p align="justify" width="20%">To evaluate the generalization ability of FORGE, we propose a new datasets containing both training and novel object categories. The camera poses are randomly sampled. We show qualitative results on the dataset. FORGE accuratly estimates relative camera poses and reconstructs the object. We can also get explicit voxel reconstruction by simply thresholding the neural volume.</p></td></tr></tbody></table>
+      <p align="justify" width="20%">To evaluate the generalization ability of FORGE, we propose a new datasets containing both training and novel object categories. The camera poses are randomly sampled. When using ground-truth camera poses, FORGE outperforms previous SOTA PixelNeRF by 2 dB PSNR with 3000 times faster inference speed. We use 5 views as inputs and evaluate the performance on another 5 novel views.</p>
+   <a href="./src/gt_compare.png"> <img
+src="./src/gt_compare.png" style="width:100%;"> </a>
+      </td></tr></tbody></table>
 
 <br>
 
 
 
-<h2 align="center">Training Categories Reconstruction</h2>
+<h2 align="center">Reconstructing Objects in Training Categories</h2>
 <table border="0" cellspacing="10" cellpadding="0" align="center">
   <tbody><tr>  <td align="center" valign="middle">
+      <p align="justify" width="20%">We show reconstruction results using predicted camera poses on 13 training categories with 5 input images. FORGE accuratly predicts the shape and appearance of objects.</p>
   <video muted autoplay loop width="100%">
       <source src="./video/train_category_trim.mp4"  type="video/mp4">
   </video>
@@ -191,28 +196,32 @@ radiance field. We use volume rendering techniques to render the reconstruction 
 
 <br>
 
-<h2 align="center">Novel Categories Reconstruction</h2>
+<h2 align="center">Reconstructing Objects in Novel Categories</h2>
 <table border="0" cellspacing="10" cellpadding="0" align="center">
   <tbody><tr>  <td align="center" valign="middle">
+      <p align="justify" width="20%">We show reconstruction results using predicted camera poses on 10 novel categories with 5 input images. FORGE reliably reconstructs objects from novel categories with a small PSNR gap of 0.8 dB compared with results on training categories.</p>
   <video muted autoplay loop width="100%">
       <source src="./video/novel_category_trim.mp4"  type="video/mp4">
   </video>
   </td>
       </tr></tbody></table>
-<br>
 
+<br>
 
 <h2 align="center">Voxel Reconstruction</h2>
 <table border="0" cellspacing="10"
 cellpadding="0" align="center"><tbody><tr><td align="center"
-valign="middle"><a href="./src/vis_voxel.png"> <img
+valign="middle">
+    <p align="justify" width="20%">We get voxel reconstruction results by simply thresholding the predicted density of neural volume. The results shows the strong ability of FORGE for capturing 3D geometry even though it is trained without 3D shape ground-truth.</p>
+    <a href="./src/vis_voxel.png"> <img
 src="./src/vis_voxel.png" style="width:100%;"> </a></td>
 </tr> </tbody> </table>
 
 <br>
 
 <h2 align="center">Pose Estimation Results</h2>
-<table width=800px><tr><td> <p align="center" width="20%">Predicted and ground-truth poses are shown in the same color with colored and white faces.</p></td></tr></table>
+<table width=800px><tr><td> <p align="justify" width="20%">We show relative camera pose estimation results on objects from both training and novel categories. Predicted and ground-truth poses are shown in the same color with colored and white faces. FORGE 
+achieves 5 degree and 10 degree pose errors on training and novel categories, reducing the errors by more than 60% compared with previous SOTA.</p></td></tr></table>
 <table border="0" cellspacing="10"
 cellpadding="0" align="center"><tbody><tr><td align="center"
 valign="middle"><a href="./src/vis_ppose.png"> <img
@@ -224,7 +233,7 @@ src="./src/vis_pose.png" style="width:100%;"> </a></td>
 <hr>
 
 
-<h1 align="center">Real World Experiment</h1>
+<h1 align="center">Real-World Demo</h1>
 <h2 align="center">Using Online Product Data</h2>
 <table border="0" cellspacing="10" cellpadding="0" align="center">
   <tbody><tr>  <td align="center" valign="middle">
@@ -245,12 +254,11 @@ src="./src/vis_pose.png" style="width:100%;"> </a></td>
 <h2 align="center">Using iPhone-captured Data</h2>
 <table border="0" cellspacing="10" cellpadding="0" align="center">
   <tbody><tr>  <td align="center" valign="middle">
+      <p align="justify" width="20%"> We tested FORGE on real-world data captured by iPhone. We used three images as inputs of FORGE and compared it with COLMAP which uses dense inputs. FORGE reliably reconstructed the objects from novel categories even though the lighting condition, image capturing stratergy and camera intrinsics are different from training.</p>
   <video muted autoplay loop width="100%">
       <source src="./video/real.mp4"  type="video/mp4">
   </video>
-  </td>
-      </tr></tbody></table>
-<p> We tested FORGE on real-world data captured by iPhone. We used three images as inputs of FORGE and compared it with COLMAP which uses dense inputs. FORGE reliably reconstructed the objects from novel categories even though the lighting condition, image capturing stratergy and camera intrinsics are different from training.</p></td></tr></table>
+</td></tr></tbody></table>
 
 <br>
 
