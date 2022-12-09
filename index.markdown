@@ -118,7 +118,7 @@ src="http://b5tcdn.bang5mai.com/js/flag.js?v=156945351"></script>
     <center><h2>
         <a href="https://www.cs.utexas.edu/">The University of Texas at Austin</a>&nbsp;&nbsp;&nbsp; 		
     </h2></center>
-	<center><h2><a href="">Paper</a> | <a href="https://github.com/UT-Austin-RPL/FORGE">Code (Coming Soon!)</a> </h2></center>
+	<center><h2><a href="https://arxiv.org/pdf/2212.04492">Paper</a> | <a href="https://github.com/UT-Austin-RPL/FORGE">Code (Coming Soon!)</a> </h2></center>
 
 
 
@@ -271,14 +271,16 @@ src="./src/vis_pose.png" style="width:100%;"> </a></td>
                   <td>
                   <left>
 <pre><code style="display:block; overflow-x: auto">
-@inproceedings{jiang2022forge,
+@article{jiang2022forge,
    title={Few-View Object Reconstruction with Unknown Categories and Camera Poses},
    author={Jiang, Hanwen and Jiang, Zhenyu and Grauman, Kristen and Zhu, Yuke},
-   booktitle={},
-   year={2022}
+   journal={ArXiv},
+   year={2022},
+   volume={2212.04492}
 }
 </code></pre>
 </left></td></tr></table>
+
 
 <!-- <br><hr> <table align=center width=800px> <tr> <td> <left>
 
