@@ -214,7 +214,7 @@ src="./src/gt_compare.png" style="width:100%;"> </a>
   <tbody><tr>  <td align="center" valign="middle">
       <p align="justify" width="20%">We show reconstruction results using predicted camera poses on 13 training categories with 5 input images. FORGE accuratly predicts the shape and appearance of objects.</p>
   <video muted autoplay loop width="100%">
-      <source src="./video/train_category_trim.mp4"  type="video/mp4">
+      <source src="./video/train_category_2.mp4"  type="video/mp4">
   </video>
   </td></tr></tbody></table>
 
@@ -225,7 +225,7 @@ src="./src/gt_compare.png" style="width:100%;"> </a>
   <tbody><tr>  <td align="center" valign="middle">
       <p align="justify" width="20%">We show reconstruction results using predicted camera poses on 10 novel categories with 5 input images. FORGE reliably reconstructs objects from novel categories with a small PSNR gap of 0.8 dB compared with results on training categories.</p>
   <video muted autoplay loop width="100%">
-      <source src="./video/novel_category_trim.mp4"  type="video/mp4">
+      <source src="./video/novel_category_2.mp4"  type="video/mp4">
   </video>
   </td>
       </tr></tbody></table>
@@ -244,13 +244,15 @@ src="./src/vis_voxel.png" style="width:100%;"> </a></td>
 <br>
 
 <h2 align="center">Pose Estimation Results</h2>
-<table width=800px><tr><td> <p align="justify" width="20%">We show relative camera pose estimation results on objects from both training and novel categories. Predicted and ground-truth poses are shown in the same color with colored and white faces. FORGE 
-achieves 5 degree and 10 degree pose errors on training and novel categories, reducing the errors by more than 60% compared with previous SOTA.</p></td></tr></table>
-<table border="0" cellspacing="10"
-cellpadding="0" align="center"><tbody><tr><td align="center"
-valign="middle"><a href="./src/vis_ppose.png"> <img
-src="./src/vis_pose.png" style="width:100%;"> </a></td>
-</tr> </tbody> </table>
+<table border="0" cellspacing="10" cellpadding="0" align="center">
+  <tbody><tr>  <td align="center" valign="middle">
+      <p align="justify" width="20%">We show relative camera pose estimation results on objects from both training and novel categories. Predicted and ground-truth poses are shown in the same color with colored and white faces. FORGE 
+achieves 5 degree and 10 degree pose errors on training and novel categories, reducing the errors by more than 60% compared with previous SOTA.</p>
+  <video muted autoplay loop width="100%">
+      <source src="./video/pose.mp4"  type="video/mp4">
+  </video>
+  </td>
+      </tr></tbody></table>
 
 <br>
 
