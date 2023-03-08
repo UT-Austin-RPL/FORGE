@@ -142,7 +142,7 @@ src="http://b5tcdn.bang5mai.com/js/flag.js?v=156945351"></script>
 <table border="0" cellspacing="10" cellpadding="0" align="center">
   <tbody><tr>  <td align="center" valign="middle">
   <video muted autoplay loop width="100%">
-      <source src="./video/online_product.mp4"  type="video/mp4">
+      <source src="./video/online_product_2.mp4"  type="video/mp4">
   </video>
   </td>
       </tr></tbody></table>
@@ -156,7 +156,7 @@ src="http://b5tcdn.bang5mai.com/js/flag.js?v=156945351"></script>
   <tbody><tr>  <td align="center" valign="middle">
       <p align="justify" width="20%"> We tested FORGE on real-world data captured by iPhone. We used three images as inputs of FORGE and compared it with COLMAP which uses dense inputs. FORGE reliably reconstructed the objects from novel categories even though the lighting condition, image capturing stratergy and camera intrinsics are different from training.</p>
   <video muted autoplay loop width="100%">
-      <source src="./video/real.mp4"  type="video/mp4">
+      <source src="./video/real_2.mp4"  type="video/mp4">
   </video>
 </td></tr></tbody></table>
 
