@@ -212,7 +212,7 @@ src="./src/gt_compare.png" style="width:100%;"> </a>
 <h2 align="center">Reconstructing Objects in Training Categories</h2>
 <table border="0" cellspacing="10" cellpadding="0" align="center">
   <tbody><tr>  <td align="center" valign="middle">
-      <p align="justify" width="20%">We show reconstruction results using predicted camera poses on 13 training categories with 5 input images. FORGE accuratly predicts the shape and appearance of objects.</p>
+      <p align="justify" width="20%">We show reconstruction results using predicted camera poses on 13 training categories from ShapeNet with 5 input images. FORGE accuratly predicts the shape and appearance of objects.</p>
   <video muted autoplay loop width="100%">
       <source src="./video/train_category_2.mp4"  type="video/mp4">
   </video>
@@ -220,12 +220,24 @@ src="./src/gt_compare.png" style="width:100%;"> </a>
 
 <br>
 
-<h2 align="center">Reconstructing Objects in Novel Categories</h2>
+<h2 align="center">Zero-shot Generalization to Novel Categories</h2>
 <table border="0" cellspacing="10" cellpadding="0" align="center">
   <tbody><tr>  <td align="center" valign="middle">
-      <p align="justify" width="20%">We show reconstruction results using predicted camera poses on 10 novel categories with 5 input images. FORGE reliably reconstructs objects from novel categories with a small PSNR gap of 0.8 dB compared with results on training categories.</p>
+      <p align="justify" width="20%">We show zero-shot generalization results using predicted camera poses on 10 novel categories from ShapeNet with 5 input images. FORGE reliably reconstructs objects from novel categories with a small PSNR gap of 0.8 dB compared with results on training categories.</p>
   <video muted autoplay loop width="100%">
       <source src="./video/novel_category_2.mp4"  type="video/mp4">
+  </video>
+  </td>
+      </tr></tbody></table>
+
+<br>
+
+<h2 align="center">Zero-shot Generalization to Real Objects</h2>
+<table border="0" cellspacing="10" cellpadding="0" align="center">
+  <tbody><tr>  <td align="center" valign="middle">
+      <p align="justify" width="20%">FORGE trained on ShapeNet objects generalize well on real objects from Google Scanned Object dataset. All objects are from novel categories with diverse geometry and texture. FORGE using predicted poses demonstrates better reconstruction quality than PixelNeRF with ground-truth poses.</p>
+  <video muted autoplay loop width="100%">
+      <source src="./video/gso.mp4"  type="video/mp4">
   </video>
   </td>
       </tr></tbody></table>
