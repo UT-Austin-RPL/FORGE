@@ -1,0 +1,60 @@
+exp_name: 'pred_pose_2d3d_joint'
+output_dir: './output'
+log_dir: './log'
+workers: 8
+print_freq: 100
+vis_freq: 1000
+eval_vis_freq: 40
+seed: 42
+
+dataset:
+  name: 'kubric'
+  category: 'general'
+  task: 'singlesequence'
+  img_size: 256
+  num_frame: 5
+  train_all_frame: True
+  mask_images: True
+  augmentation: False
+
+network:
+  backbone: 'resnet'
+  scale_rotate: 0.01
+  scale_translate: 0.01
+  padding_mode: 'zeros'
+  rot_representation: 'quat'
+
+render:
+  n_pts_per_ray: 64
+  volume_size: 1.0  # physical size in meters
+  min_depth: 0.5  # rendering sample depth in meters
+  max_depth: 2.0
+  camera_z: 1.5
+  k_size: 5
+
+loss:
+  recon_rgb: 5.0
+  recon_mask: 1.0
+  perceptual_img: 0.02
+  regu_origin_proj: 1.0
+
+train:
+  lr: 0.0001
+  weight_decay: 0
+  schedular_step: 100
+  schedular_gamma: 0.7
+  end_epoch: 3000
+  resume: False
+  batch_size: 4
+  snapshot_freq: 10
+  total_iteration: 200000
+  use_gt_pose: False
+  canonicalize: True
+  accumulation_step: 1
+  normalize_img: False
+  parameter: 'joint'
+  adjust_iter_num: [50000, 90000, 120000, 150000]
+  
+test:
+  batch_size: 1
+  compute_metric: True
