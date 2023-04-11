@@ -118,7 +118,7 @@ src="http://b5tcdn.bang5mai.com/js/flag.js?v=156945351"></script>
     <center><h2>
         <a href="https://www.cs.utexas.edu/">The University of Texas at Austin</a>&nbsp;&nbsp;&nbsp; 		
     </h2></center>
-	<center><h2><a href="https://arxiv.org/pdf/2212.04492">Paper</a> | <a href="https://github.com/UT-Austin-RPL/FORGE">Code (Coming Soon!)</a> </h2></center>
+	<center><h2><a href="https://arxiv.org/pdf/2212.04492">Paper</a> | <a href="https://github.com/UT-Austin-RPL/FORGE">Code</a> </h2></center>
 
 
 
