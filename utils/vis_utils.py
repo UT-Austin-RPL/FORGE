@@ -308,7 +308,7 @@ def vis_NVS(imgs, masks, img_name, output_dir, inv_normalize=False, subfolder='v
         imgs = 255 * torch.cat([imgs, masks], dim=-1)  # [N,c,h, 2*w]
         
 
-    frames = [np.uint8(img.permute(1,2,0).numpy()) for img in imgs]  # image in [h,w,c]
+    frames = [np.uint8(img.permute(1,2,0).clamp(min=0.0, max=255.0).numpy()) for img in imgs]  # image in [h,w,c]
     #from IPython import embed; embed()
     imageio.mimsave(save_name, frames, 'GIF', duration=0.1)
 
@@ -421,3 +421,28 @@ class CameraPoseVisualizer:
     def save(self, save_path):
         plt.savefig(save_path, dpi=200)
         plt.close('all')
+
+
+def vis_nvs_separate(imgs, imgs_gt, instance_name, output_dir, subfolder='test_seq_split'):
+    '''
+    imgs: in shape [n,c,h,w] with value range [0,1]
+    '''
+    output_dir = os.path.join(output_dir, 'visualization', subfolder)
+    os.makedirs(output_dir, exist_ok=True)
+
+    num_nvs = imgs.shape[0]
+
+    imgs_255 = (imgs * 255).clamp(min=0.0, max=255.0).permute(0,2,3,1).detach().cpu().numpy()   # [n,h,w,c]
+    imgs_gt = (imgs_gt * 255).clamp(min=0.0, max=255.0).permute(0,2,3,1).detach().cpu().numpy()
+
+    for i, img_255 in enumerate(imgs_gt):
+        img_255_uint8 = np.uint8(img_255)
+        os.makedirs(os.path.join(output_dir, instance_name), exist_ok=True)
+        save_path = os.path.join(output_dir, instance_name, '{}_gt.png'.format(i))
+        cv2.imwrite(save_path, img_255_uint8[:,:,::-1])
+
+    for i, img_255 in enumerate(imgs_255):
+        img_255_uint8 = np.uint8(img_255)
+        os.makedirs(os.path.join(output_dir, instance_name), exist_ok=True)
+        save_path = os.path.join(output_dir, instance_name, '{}.png'.format(i+5))
+        cv2.imwrite(save_path, img_255_uint8[:,:,::-1])

@@ -13,8 +13,8 @@ from utils import train_utils, vis_utils, geo_utils, exp_utils, eval_utils
 
 logger = logging.getLogger(__name__)
 
-adjust_iter_num = [13000, 25000, 35000, 50000]
-
+#adjust_iter_num = [13000, 25000, 35000, 50000]
+adjust_iter_num = [it*2 for it in [13000, 25000, 35000, 50000]]
 
 def compute_pose_loss(sample, model, losses, device):
     clips = sample['images'].to(device)     # [b,t,c,h,w]
@@ -110,7 +110,7 @@ def validate(config, loader, dataset, model, epoch, output_dir, device, rank):
 
     with torch.no_grad():
         for batch_idx, sample in enumerate(loader):
-            if batch_idx % config.eval_vis_freq != 0:
+            if (batch_idx % config.eval_vis_freq != 0) and (config.dataset.name == 'kubric'):
                 continue
 
             clips = sample['images'].to(device)
@@ -151,8 +151,12 @@ def validate(config, loader, dataset, model, epoch, output_dir, device, rank):
     print('unseen: Rot {}, Trans {}'.format(unseen_rot, unseen_trans))
     print('seen: Rot {}, Trans {}'.format(seen_rot, seen_trans))
 
-    rot = 0.5 * (seen_rot + unseen_rot)
-    trans = 0.5 * (seen_trans + unseen_trans)
+    if config.dataset.name == 'kurbic':
+        rot = 0.5 * (seen_rot + unseen_rot)
+        trans = 0.5 * (seen_trans + unseen_trans)
+    elif config.dataset.name == 'omniobject3d':
+        rot = unseen_rot
+        trans = unseen_trans
 
     return_dict = {
         'unseen_rot': unseen_rot,

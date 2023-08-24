@@ -1,4 +1,4 @@
-exp_name: 'pred_pose_3d'
+exp_name: 'pred_pose_3d_2'
 output_dir: './output'
 log_dir: './log'
 workers: 8

@@ -15,9 +15,14 @@ logger = logging.getLogger(__name__)
 
 def train_epoch(config, loader, dataset, model, optimizer, 
                 epoch, output_dir, device, rank, 
-                perceptual_loss=None, loss_func=None, set_model_train=None):
+                perceptual_loss=None, loss_func=None, set_model_train=None, recon_sv_mv=True):
     time_meters = exp_utils.AverageMeters()
     loss_meters = exp_utils.AverageMeters()
+
+    if config.dataset.name == 'kubric':
+        max_norm = 10.0
+    elif config.dataset.name == 'omniobject3d':
+        max_norm = 5.0
 
     set_model_train(model, config)
     if perceptual_loss is not None:
@@ -50,7 +55,7 @@ def train_epoch(config, loader, dataset, model, optimizer,
         total_loss = total_loss / config.train.accumulation_step
         total_loss.backward()
         if (batch_idx+1) % config.train.accumulation_step == 0:
-            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=10, norm_type=2.0)
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=max_norm, norm_type=2.0)
             optimizer.step()
             optimizer.zero_grad()
 
@@ -78,12 +83,21 @@ def train_epoch(config, loader, dataset, model, optimizer,
 
         
         if iter_num % config.vis_freq == 0 and rank == 0 and torch.is_tensor(rendered_imgs):
-                vis_utils.vis_seq(vid_clips=sample['images'],
-                                  vid_masks=sample['fg_probabilities'],
-                                  recon_clips=rendered_imgs,
-                                  recon_masks=rendered_masks,
-                                  iter_num=iter_num,
-                                  output_dir=output_dir,
-                                  subfolder='train_seq')
+                if recon_sv_mv:
+                    vis_utils.vis_seq_sv_mv(vid_clips=sample['images'],
+                                    vid_masks=sample['fg_probabilities'],
+                                    recon_clips=rendered_imgs,
+                                    recon_masks=rendered_masks,
+                                    iter_num=iter_num,
+                                    output_dir=output_dir,
+                                    subfolder='train_seq')
+                else:
+                    vis_utils.vis_seq(vid_clips=sample['images'],
+                                    vid_masks=sample['fg_probabilities'],
+                                    recon_clips=rendered_imgs,
+                                    recon_masks=rendered_masks,
+                                    iter_num=iter_num,
+                                    output_dir=output_dir,
+                                    subfolder='train_seq')
 
         batch_end = time.time()

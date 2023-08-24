@@ -2,7 +2,7 @@ import os
 import numpy as np
 
 if __name__ == '__main__':
-    file_path = './output/kubric/EVALUATION_PATH/results/results.txt'
+    file_path = '/vision/hwjiang/open_resource/FORGE/output/omniobject3d/optimize/optimize/results/results.txt'
 
     unseen_psnr = []
     unseen_ssim = []

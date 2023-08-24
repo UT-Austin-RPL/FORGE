@@ -147,6 +147,10 @@ def normal_init(module, mean=0, std=1, bias=0):
 
 
 def adjust_lr(config, optimizer, iter_num, adjust_iter_num):
+    if config.dataset.name == 'omniobject3d':
+        warmup_iter = 500
+        max_lr = config.train.lr
+        lr = max_lr * iter_num / warmup_iter
     if iter_num == adjust_iter_num[0]:
         lr = config.train.lr * 0.5
     elif iter_num == adjust_iter_num[1]:

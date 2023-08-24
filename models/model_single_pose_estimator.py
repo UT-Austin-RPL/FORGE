@@ -127,6 +127,8 @@ class FORGE_poseEstimator3D(nn.Module):
         features_all = torch.cat([features_3v2v, features_all], dim=1).reshape(b*2*t,C2,D2,H2,W2)    # [b,2*t,C,D,H,W] -> [b*2*t,C,D,H,W]
         densities_all = densities_mv.unsqueeze(1).repeat(1,t,1,1,1,1)
         densities_all = torch.cat([densities_3v2v, densities_all], dim=1).reshape(b*2*t,1,D2,H2,W2)
+        if self.config.dataset.name == 'omniobject3d':
+            densities_all = densities_all.clamp(min=0.0, max=1.0)
 
         rendered_imgs, rendered_masks, origin_proj = self.render(cameras, features_all, densities_all, return_origin_proj=True)
 

@@ -1,14 +1,14 @@
-exp_name: 'gt_pose2'
+exp_name: 'pred_pose_2d3d_pretrain_p0.5_2'
 output_dir: './output'
 log_dir: './log'
 workers: 8
-print_freq: 1
-vis_freq: 10
+print_freq: 100
+vis_freq: 1000
 eval_vis_freq: 40
 seed: 42
 
 dataset:
-  name: 'kubric'
+  name: 'omniobject3d'
   category: 'general'
   task: 'singlesequence'
   img_size: 256
@@ -25,33 +25,34 @@ network:
 
 render:
   n_pts_per_ray: 64
-  volume_size: 1.0  # physical size in meters
-  min_depth: 0.5  # rendering sample depth in meters
-  max_depth: 2.0
-  camera_z: 1.5
+  volume_size: 2.0  # physical size in meters
+  min_depth: 3.0  # rendering sample depth in meters
+  max_depth: 5.0
+  camera_z: 4.0
   k_size: 5
 
 loss:
   recon_rgb: 5.0
   recon_mask: 1.0
   perceptual_img: 0.02
+  regu_origin_proj: 0.0
 
 train:
-  lr: 0.0008
+  lr: 0.0005
   weight_decay: 0
   schedular_step: 100
   schedular_gamma: 0.7
   end_epoch: 3000
   resume: False
-  batch_size: 4
+  batch_size: 5
   snapshot_freq: 10
   total_iteration: 200000
-  use_gt_pose: True
+  use_gt_pose: False
   canonicalize: True
   accumulation_step: 1
   normalize_img: False
-  parameter: 'all'
-  adjust_iter_num: [17500, 26000, 34000, 50000] #[70000, 130000, 170000, 200000]
+  parameter: 'pose_head'
+  adjust_iter_num: [10000, 20000, 30000, 40000]
   
 test:
   batch_size: 1
