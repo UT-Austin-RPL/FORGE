@@ -27,8 +27,10 @@ class FORGE(nn.Module):
         
         self.encoder_traj = PoseEstimator3D(config)
         self.encoder_traj_2d = PoseEstimator2D()
+
+        dropout_p = 0.5
         self.pose_head = nn.Sequential(*[
-            nn.Dropout(p=0.6),
+            nn.Dropout(p=dropout_p),
             nn.Linear(2048, 512),
             #nn.BatchNorm1d(512),
             nn.LayerNorm(512),
@@ -135,6 +137,8 @@ class FORGE(nn.Module):
         _, C2, D2, H2, W2 = features_mv.shape
         features_all = features_mv.unsqueeze(1).repeat(1,t_all,1,1,1,1).reshape(b*t_all,C2,D2,H2,W2)    # [b,2*t,C,D,H,W] -> [b*2*t,C,D,H,W]
         densities_all = densities_mv.unsqueeze(1).repeat(1,t_all,1,1,1,1).reshape(b*t_all,1,D2,H2,W2)
+        if self.config.dataset.name == 'omniobject3d':
+            densities_all = densities_all.clamp(min=0.0, max=1.0)
 
         rendered_imgs, rendered_masks, origin_proj = self.render(cameras, features_all, densities_all, return_origin_proj=True)
         

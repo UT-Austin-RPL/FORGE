@@ -70,8 +70,9 @@ class VolRender(nn.Module):
 
         rendered_imgs = rendered_imgs.permute(0,3,1,2).contiguous()
         rendered_silhouettes = rendered_silhouettes.permute(0,3,1,2).contiguous()
-        rendered_imgs = F.relu(self.conv_rgb(rendered_imgs))
+        rendered_imgs = F.relu(self.conv_rgb(rendered_imgs))#.clamp(min=0.0, max=1.0)
         rendered_silhouettes = F.upsample(rendered_silhouettes, size=[self.img_size]*2, mode='bilinear')
+        #__import__('pdb').set_trace()
 
         if return_origin_proj:
             origin = torch.zeros(1,3).to(device)

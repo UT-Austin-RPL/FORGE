@@ -57,11 +57,11 @@ def compute_pose_loss(config, epoch, sample, dataset, model, losses, device, per
     losses['trans'] = loss_trans.item()
     loss_recon += loss_trans
     
-    if config.loss.regu_origin_proj > 0 and epoch >= 10:
+    if config.loss.regu_origin_proj > 0 and epoch >= 100:
         loss_regu_origin = config.loss.regu_origin_proj * F.mse_loss(origin_proj, 
                                                                      torch.tensor([0.5, 0.5]).reshape(1,2).to(origin_proj))
         losses['regu_origin'] = loss_regu_origin.item()
-        loss_recon += loss_regu_origin        
+        loss_recon += loss_regu_origin
 
     return loss_recon, losses, None, None
 

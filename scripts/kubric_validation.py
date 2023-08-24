@@ -45,7 +45,7 @@ def validate_poseEstimator3D(config, loader, dataset, model, epoch, output_dir, 
 
     with torch.no_grad():
         for batch_idx, sample in enumerate(loader):
-            if batch_idx % config.eval_vis_freq != 0:
+            if (batch_idx % config.eval_vis_freq != 0) and (config.dataset.name == 'kubric'):
                 continue
 
             clips = sample['images'].to(device)
@@ -58,6 +58,7 @@ def validate_poseEstimator3D(config, loader, dataset, model, epoch, output_dir, 
             b, t, c, h, w = clips.shape
             seen_flag = sample['seen_flag']
             cur_seen_flag = seen_flag[0].item() > 0     # batch=1
+            instance_name = sample['seq_name'][0]
             
             clips = clips.reshape(b*t,c,h,w)
             features_raw = model.module.encoder_3d.get_feat3D(clips)               # [b*t,C,D,H,W]
@@ -132,6 +133,8 @@ def validate_poseEstimator3D(config, loader, dataset, model, epoch, output_dir, 
                 features_all = torch.cat([features_3v2v, features_all], dim=1).reshape(b*2*t,C2,D2,H2,W2)    # [b,2*t,C,D,H,W] -> [b*2*t,C,D,H,W]
                 densities_all = densities_mv.unsqueeze(1).repeat(1,t,1,1,1,1)
                 densities_all = torch.cat([densities_3v2v, densities_all], dim=1).reshape(b*2*t,1,D2,H2,W2)
+                if config.dataset.name == 'omniobject3d':
+                    densities_all = densities_all.clamp(min=1e-4, max=1.0-1e-4)
 
                 rendered_imgs, rendered_masks, origin_proj = model.module.render(cameras, features_all, densities_all, return_origin_proj=True)
                 rendered_imgs = rendered_imgs.reshape(b,2*t,c,h,w)
@@ -145,6 +148,8 @@ def validate_poseEstimator3D(config, loader, dataset, model, epoch, output_dir, 
                 }
                 features_all = features_mv.unsqueeze(1).repeat(1,t,1,1,1,1).reshape(b*t,C2,D2,H2,W2)
                 densities_all = densities_mv.unsqueeze(1).repeat(1,t,1,1,1,1).reshape(b*t,1,D2,H2,W2)
+                if config.dataset.name == 'omniobject3d':
+                    densities_all = densities_all.clamp(min=1e-4, max=1.0-1e-4)
                 rendered_imgs_nvs, rendered_masks_nvs = model.module.render(cameras_nvs, features_all, densities_all, return_origin_proj=False)
                 rendered_imgs_nvs = rendered_imgs_nvs.reshape(b,5,c,h,w)
                 rendered_masks_nvs = rendered_masks_nvs.reshape(b,5,1,h,w)
@@ -201,48 +206,60 @@ def validate_poseEstimator3D(config, loader, dataset, model, epoch, output_dir, 
                     unseen_rot.append(rot)
                     unseen_trans.append(trans)
 
+            # save_results
+            vis_utils.vis_nvs_separate(imgs=rendered_imgs_nvs[0],
+                                       imgs_gt=sample['images'][0],
+                                       instance_name=instance_name, 
+                                       output_dir=output_dir,
+                                       subfolder='test_seq_split'
+                                       )
+
+            # with open(os.path.join(output_dir, 'visualization', 'test_seq_split', 'results.txt'), 'a+') as f:
+            #     f.write('{}, {}, {}\n'.format(instance_name, psnr, ssim))
+
+            
             # visualize reconstruction
-            if batch_idx % config.eval_vis_freq == 0 and mode != 'pose' and rank == 0:
-                vis_utils.vis_seq_sv_mv(vid_clips=sample['images'][:,:5],
-                                vid_masks=sample['fg_probabilities'][:,:5],
-                                recon_clips=rendered_imgs,
-                                recon_masks=rendered_masks,
-                                iter_num=str(batch_idx),
-                                output_dir=output_dir,
-                                subfolder='test_seq',
-                                inv_normalize=config.train.normalize_img)
-                vis_utils.vis_seq(vid_clips=sample['images'][:,5:],
-                                vid_masks=sample['fg_probabilities'][:,5:],
-                                recon_clips=rendered_imgs_nvs,
-                                recon_masks=rendered_masks_nvs,
-                                iter_num=str(batch_idx)+'_nvs_',
-                                output_dir=output_dir,
-                                subfolder='test_seq')
+            # if (batch_idx % config.eval_vis_freq == 0 and mode != 'pose' and rank == 0) or (config.dataset.name != 'kubric' and mode != 'pose' and rank == 0):
+            #     vis_utils.vis_seq_sv_mv(vid_clips=sample['images'][:,:5],
+            #                     vid_masks=sample['fg_probabilities'][:,:5],
+            #                     recon_clips=rendered_imgs,
+            #                     recon_masks=rendered_masks,
+            #                     iter_num=str(batch_idx),
+            #                     output_dir=output_dir,
+            #                     subfolder='test_seq',
+            #                     inv_normalize=config.train.normalize_img)
+            #     vis_utils.vis_seq(vid_clips=sample['images'][:,5:],
+            #                     vid_masks=sample['fg_probabilities'][:,5:],
+            #                     recon_clips=rendered_imgs_nvs,
+            #                     recon_masks=rendered_masks_nvs,
+            #                     iter_num=str(batch_idx)+'_nvs_',
+            #                     output_dir=output_dir,
+            #                     subfolder='test_seq')
 
 
-                # 360-degree NVS
-                for idx in range(b):
-                    rendered_imgs_results, rendered_masks_results = [], []
-                    all_feature = features_mv[idx].unsqueeze(0).repeat(7,1,1,1,1)   # [N,C,D,H,W]
-                    all_density = densities_mv[idx].unsqueeze(0).repeat(7,1,1,1,1).clamp(max=1.0)   # [N,1,D,H,W]
-                    for pose_idx in range(4):
-                        cameras = {
-                            'K': sample['K_cv2'][idx][0:1].repeat(7,1,1),                      # [N,3,3]
-                            'R': NVS_pose_all[pose_idx*7: (pose_idx+1)*7,:3,:3],
-                            'T': NVS_pose_all[pose_idx*7: (pose_idx+1)*7,:3,3],
-                        }
-                        rendered_imgs, rendered_masks = model.module.render(cameras, all_feature, all_density)           # [N,c,h,w], [N,1,h,w]
-                        rendered_imgs_results.append(rendered_imgs.detach())
-                        rendered_masks_results.append(rendered_masks.detach())
-                    rendered_imgs_results = torch.cat(rendered_imgs_results, dim=0)
-                    rendered_masks_results = torch.cat(rendered_masks_results, dim=0)
-                    rendered_imgs_results = rendered_imgs_results.clip(min=0.0, max=1.0)
-                    vis_utils.vis_NVS(imgs=rendered_imgs_results,
-                                        masks=rendered_masks_results, 
-                                        img_name=str(batch_idx) + '_' + str(idx),
-                                        output_dir=output_dir,
-                                        subfolder='test_seq',
-                                        inv_normalize=config.train.normalize_img)
+            #     # 360-degree NVS
+            #     for idx in range(b):
+            #         rendered_imgs_results, rendered_masks_results = [], []
+            #         all_feature = features_mv[idx].unsqueeze(0).repeat(7,1,1,1,1)   # [N,C,D,H,W]
+            #         all_density = densities_mv[idx].unsqueeze(0).repeat(7,1,1,1,1).clamp(max=1.0)   # [N,1,D,H,W]
+            #         for pose_idx in range(4):
+            #             cameras = {
+            #                 'K': sample['K_cv2'][idx][0:1].repeat(7,1,1),                      # [N,3,3]
+            #                 'R': NVS_pose_all[pose_idx*7: (pose_idx+1)*7,:3,:3],
+            #                 'T': NVS_pose_all[pose_idx*7: (pose_idx+1)*7,:3,3],
+            #             }
+            #             rendered_imgs, rendered_masks = model.module.render(cameras, all_feature, all_density)           # [N,c,h,w], [N,1,h,w]
+            #             rendered_imgs_results.append(rendered_imgs.detach())
+            #             rendered_masks_results.append(rendered_masks.detach())
+            #         rendered_imgs_results = torch.cat(rendered_imgs_results, dim=0)
+            #         rendered_masks_results = torch.cat(rendered_masks_results, dim=0)
+            #         rendered_imgs_results = rendered_imgs_results.clip(min=0.0, max=1.0)
+            #         vis_utils.vis_NVS(imgs=rendered_imgs_results,
+            #                             masks=rendered_masks_results, 
+            #                             img_name=str(batch_idx) + '_' + str(idx),
+            #                             output_dir=output_dir,
+            #                             subfolder='test_seq',
+            #                             inv_normalize=config.train.normalize_img)
 
     unseen_psnr = np.array(unseen_psnr).mean()
     unseen_ssim = np.array(unseen_ssim).mean()
@@ -258,8 +275,13 @@ def validate_poseEstimator3D(config, loader, dataset, model, epoch, output_dir, 
     print('seen: PSNR {}, ssim {}'.format(seen_psnr, seen_ssim))
     print('seen: Rot {}, Trans {}'.format(seen_rot, seen_trans))
 
-    psnr = 0.5 * (unseen_psnr + seen_psnr)
-    rot = 0.5 * (unseen_rot + seen_rot)
+    
+    if config.dataset.name == 'kurbic':
+        psnr = 0.5 * (unseen_psnr + seen_psnr)
+        rot = 0.5 * (unseen_rot + seen_rot)
+    elif config.dataset.name == 'omniobject3d':
+        psnr = unseen_psnr
+        rot = unseen_rot
 
     return_dict = {
         'unseen_psnr': unseen_psnr,
@@ -304,7 +326,7 @@ def validate(config, loader, dataset, model, epoch, output_dir, device, rank):
 
     with torch.no_grad():
         for batch_idx, sample in enumerate(loader):
-            if batch_idx % config.eval_vis_freq != 0:
+            if (batch_idx % config.eval_vis_freq != 0) and (config.dataset.name == 'kubric'):
                 continue
 
             clips = sample['images'].to(device)
@@ -395,6 +417,8 @@ def validate(config, loader, dataset, model, epoch, output_dir, device, rank):
                 features_all = torch.cat([features_3v2v, features_all], dim=1).reshape(b*2*t,C2,D2,H2,W2)    # [b,2*t,C,D,H,W] -> [b*2*t,C,D,H,W]
                 densities_all = densities_mv.unsqueeze(1).repeat(1,t,1,1,1,1)
                 densities_all = torch.cat([densities_3v2v, densities_all], dim=1).reshape(b*2*t,1,D2,H2,W2)
+                if config.dataset.name == 'omniobject3d':
+                    densities_all = densities_all.clamp(min=1e-4, max=1.0-1e-4)
 
                 rendered_imgs, rendered_masks, origin_proj = model.module.render(cameras, features_all, densities_all, return_origin_proj=True)
                 rendered_imgs = rendered_imgs.reshape(b,2*t,c,h,w)
@@ -408,6 +432,8 @@ def validate(config, loader, dataset, model, epoch, output_dir, device, rank):
                 }
                 features_all = features_mv.unsqueeze(1).repeat(1,t,1,1,1,1).reshape(b*t,C2,D2,H2,W2)
                 densities_all = densities_mv.unsqueeze(1).repeat(1,t,1,1,1,1).reshape(b*t,1,D2,H2,W2)
+                if config.dataset.name == 'omniobject3d':
+                    densities_all = densities_all.clamp(min=1e-4, max=1.0-1e-4)
                 rendered_imgs_nvs, rendered_masks_nvs = model.module.render(cameras_nvs, features_all, densities_all, return_origin_proj=False)
                 rendered_imgs_nvs = rendered_imgs_nvs.reshape(b,5,c,h,w)
                 rendered_masks_nvs = rendered_masks_nvs.reshape(b,5,1,h,w)
@@ -456,7 +482,7 @@ def validate(config, loader, dataset, model, epoch, output_dir, device, rank):
                 unseen_trans.append(trans)
 
             # visualize reconstruction
-            if batch_idx % config.eval_vis_freq == 0 and (mode != 'pose' and mode != 'pose_head') and rank == 0:
+            if ((batch_idx % config.eval_vis_freq == 0) or config.dataset.name != 'kubric') and (mode != 'pose' and mode != 'pose_head') and rank == 0:
                 vis_utils.vis_seq_sv_mv(vid_clips=sample['images'][:,:5],
                                 vid_masks=sample['fg_probabilities'][:,:5],
                                 recon_clips=rendered_imgs,
@@ -512,8 +538,12 @@ def validate(config, loader, dataset, model, epoch, output_dir, device, rank):
     print('seen: PSNR {}, ssim {}'.format(seen_psnr, seen_ssim))
     print('seen: Rot {}, Trans {}'.format(seen_rot, seen_trans))
 
-    psnr = 0.5 * (unseen_psnr + seen_psnr)
-    rot = 0.5 * (unseen_rot + seen_rot)
+    if config.dataset.name == 'kurbic':
+        psnr = 0.5 * (unseen_psnr + seen_psnr)
+        rot = 0.5 * (unseen_rot + seen_rot)
+    elif config.dataset.name == 'omniobject3d':
+        psnr = unseen_psnr
+        rot = unseen_rot
 
     return_dict = {
         'unseen_psnr': unseen_psnr,

@@ -1,14 +1,14 @@
-exp_name: 'gt_pose2'
+exp_name: 'gt_pose'
 output_dir: './output'
 log_dir: './log'
 workers: 8
-print_freq: 1
-vis_freq: 10
-eval_vis_freq: 40
-seed: 42
+print_freq: 100
+vis_freq: 1000
+eval_vis_freq: 10
+seed: 0
 
 dataset:
-  name: 'kubric'
+  name: 'omniobject3d'
   category: 'general'
   task: 'singlesequence'
   img_size: 256
@@ -25,10 +25,10 @@ network:
 
 render:
   n_pts_per_ray: 64
-  volume_size: 1.0  # physical size in meters
-  min_depth: 0.5  # rendering sample depth in meters
-  max_depth: 2.0
-  camera_z: 1.5
+  volume_size: 2.0  # physical size in meters
+  min_depth: 3.0  # rendering sample depth in meters
+  max_depth: 5.0
+  camera_z: 4.0
   k_size: 5
 
 loss:
@@ -42,7 +42,7 @@ train:
   schedular_step: 100
   schedular_gamma: 0.7
   end_epoch: 3000
-  resume: False
+  resume: True
   batch_size: 4
   snapshot_freq: 10
   total_iteration: 200000

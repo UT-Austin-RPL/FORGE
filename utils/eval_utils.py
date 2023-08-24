@@ -52,7 +52,7 @@ def permute_clips(clips, gt_poses, nvs_extr, canonical_id, clips_only=False, ret
     
     tmp = torch.inverse(torch.tensor([[1.0, 0.0, 0.0, 0.0],
                                                       [0.0, 1.0, 0.0, 0.0],
-                                                      [0.0, 0.0, 1.0, 1.5],
+                                                      [0.0, 0.0, 1.0, 4.0],
                                                       [0.0, 0.0, 0.0, 1.0]]))
     nvs_poses = geo_utils.get_relative_pose(nvs_poses[canonical_id], nvs_poses)
     nvs_poses = geo_utils.canonicalize_poses(tmp, nvs_poses)
