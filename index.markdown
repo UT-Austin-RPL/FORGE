@@ -118,7 +118,11 @@ src="http://b5tcdn.bang5mai.com/js/flag.js?v=156945351"></script>
     <center><h2>
         <a href="https://www.cs.utexas.edu/">The University of Texas at Austin</a>&nbsp;&nbsp;&nbsp; 		
     </h2></center>
+    <center><h2>
+        3DV 2024 (Oral)	
+    </h2></center>
 	<center><h2><a href="https://arxiv.org/pdf/2212.04492">Paper</a> | <a href="https://github.com/UT-Austin-RPL/FORGE">Code</a> </h2></center>
+
 
 
 
@@ -281,12 +285,12 @@ achieves 5 degree and 10 degree pose errors on training and novel categories, re
 @article{jiang2022forge,
    title={Few-View Object Reconstruction with Unknown Categories and Camera Poses},
    author={Jiang, Hanwen and Jiang, Zhenyu and Grauman, Kristen and Zhu, Yuke},
-   journal={ArXiv},
-   year={2022},
-   volume={2212.04492}
+   journal={3DV},
+   year={2024}
 }
 </code></pre>
 </left></td></tr></table>
+
 
 
 <!-- <br><hr> <table align=center width=800px> <tr> <td> <left>
