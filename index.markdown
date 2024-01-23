@@ -285,7 +285,7 @@ achieves 5 degree and 10 degree pose errors on training and novel categories, re
 @article{jiang2022forge,
    title={Few-View Object Reconstruction with Unknown Categories and Camera Poses},
    author={Jiang, Hanwen and Jiang, Zhenyu and Grauman, Kristen and Zhu, Yuke},
-   journal={3DV},
+   journal={International Conference on 3D Vision},
    year={2024}
 }
 </code></pre>
