@@ -1,6 +1,6 @@
 # FORGE: Few-View Object Reconstruction with Unknown Categories and Camera Poses
 
-### [Project Page](https://ut-austin-rpl.github.io/FORGE/) |  [Paper](https://arxiv.org/pdf/2212.04492.pdf)
+### [Project Page](https://ut-austin-rpl.github.io/FORGE/) |  [Paper](https://arxiv.org/abs/2212.04492.pdf)
 <br/>
 
 > Few-View Object Reconstruction with Unknown Categories and Camera Poses  
