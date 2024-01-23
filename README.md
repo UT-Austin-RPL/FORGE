@@ -103,12 +103,11 @@ We provide the pre-train weight for each step and their saving path.
 
 ## Citation
 ```bibtex
-@article{jiang2022forge,
+@article{jiang2024forge,
    title={Few-View Object Reconstruction with Unknown Categories and Camera Poses},
    author={Jiang, Hanwen and Jiang, Zhenyu and Grauman, Kristen and Zhu, Yuke},
-   journal={ArXiv},
-   year={2022},
-   volume={2212.04492}
+   journal={International Conference on 3D Vision (3DV)},
+   year={2024}
 }
 ```
 
