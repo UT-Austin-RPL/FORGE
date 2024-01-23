@@ -23,7 +23,7 @@ conda install pytorch==1.10.0 torchvision==0.11.0 torchaudio==0.10.0 cudatoolkit
 pip install -r requirements.txt
 ```
 
-To enable depth rendering using PyToch3D, add the follow code segment to `PYTORCH3D_PATH/renderer/implicit/raymarching.py` Line 108.
+To enable depth rendering using PyToch3D, add the following code segment to `PYTORCH3D_PATH/renderer/implicit/raymarching.py` Line 108.
 
 ```
 if 'render_depth' in kwargs.keys() and kwargs['render_depth'] == True and 'ray_bundle' in kwargs.keys():
@@ -84,22 +84,19 @@ We provide the pre-train weight for each step and their saving path.
 
 ## Evaluate
 - We evaluate results with and without test-time pose optimization.
-    - For ShapeNet seen categories, using `./run/kubric_eval_seen.sh`.
-    - For ShapeNet unseen categories, using `./run/kubric_eval_unseen.sh`.
-    - For GSO unseen categories, using `./run/gso_eval.sh`.
+    - For ShapeNet seen categories, use `./run/kubric_eval_seen.sh`.
+    - For ShapeNet unseen categories, use `./run/kubric_eval_unseen.sh`.
+    - For GSO unseen categories, use `./run/gso_eval.sh`.
 
-- The visualization and evaluation logs are saved in corresponding path specified by the configs. Use `./scripts/eval_readout.py` to readout results.
+- The visualization and evaluation logs are saved in the corresponding path specified by the configs. Use `./scripts/eval_readout.py` to read out results.
 
-- You can try to use camera synchronization by adding argument `--use_sync` (default unused, it collapses under large pose errors but can slightly improve pose results on most of samples).
+- You can try to use camera synchronization by adding argument `--use_sync` (default unused, it collapses under large pose errors but can slightly improve pose results on most samples).
 
-- We provide raw evaluation results for enabling detailed analysis on each categories ([link](https://utexas.box.com/s/0x3wx38fpuylbomcl31rs7pc91wnisnz)).
+- We provide raw evaluation results for enabling detailed analysis on each category ([link](https://utexas.box.com/s/0x3wx38fpuylbomcl31rs7pc91wnisnz)).
 
 ## Known Issues
-- The model trained on synthetic data with dark environment doesn't generalize well on some real-image with strong lights.
+- The model trained on synthetic data in the dark environment doesn't generalize well in some real-image with strong lights.
 - The fusion module degenerates after fine-tuning. We use the weight before fine-tuning.
-
-## TODO
-- [ ] Train FORGE on CO3D to eliminate domain gap.
 
 ## Citation
 ```bibtex
